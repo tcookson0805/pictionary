@@ -1,6 +1,10 @@
 var pictionary = function() {
     var canvas, context;
 
+    var drawing = false;
+
+    console.log('what the fuck');
+
     var draw = function(position) {
         
         // this tells the context you are about to start drawing a new object
@@ -28,6 +32,15 @@ var pictionary = function() {
     canvas[0].height = canvas[0].offsetHeight;
     
     //  adding mousemove listener to the canvas
+    
+    canvas.on('mousedown', function(event){
+         drawing = true;
+    });
+    
+    canvas.on('mouseup', function(event){
+         drawing = false;
+    })
+    
     canvas.on('mousemove', function(event) {
         
         // first find the offset of the canvas on the page
@@ -39,7 +52,12 @@ var pictionary = function() {
             //  to the top-left of the canvas
         var position = {x: event.pageX - offset.left,
                         y: event.pageY - offset.top};
-        draw(position);
+        
+        console.log('hey');
+        if(drawing){
+            draw(position);
+        }
+        
     });
 };
 

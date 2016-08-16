@@ -1,5 +1,12 @@
+// calling io and setting to socket variable
+var socket = io();
+
+// function where all the magic happens
 var pictionary = function() {
+    
     var canvas, context;
+    
+    var drawing = false;
 
     var draw = function(position) {
         
@@ -13,6 +20,8 @@ var pictionary = function() {
         
         // finally this fills the path in to create a solid black circle
         context.fill();
+         
+        socket.emit('draw', position);       
     };
 
     // using jQuery to select the <canvas> element
@@ -27,6 +36,15 @@ var pictionary = function() {
     canvas[0].width = canvas[0].offsetWidth;
     canvas[0].height = canvas[0].offsetHeight;
     
+   $('body').on('mousedown', canvas, function(){
+        drawing = true;
+   });
+   
+   $('body').on('mouseup', canvas, function(){
+        drawing = false;
+   });
+   
+   
     //  adding mousemove listener to the canvas
     canvas.on('mousemove', function(event) {
         
@@ -39,10 +57,36 @@ var pictionary = function() {
             //  to the top-left of the canvas
         var position = {x: event.pageX - offset.left,
                         y: event.pageY - offset.top};
-        draw(position);
+        
+        if(drawing){
+            draw(position);            
+        }
+
+        
+        // EMITTER that lets server know 'draw' has occured and sends position
+
+  
     });
+    
+    // hears the 'draw' from the server
+    socket.on('draw', function(position){
+       draw(position);
+    });
+    
 };
 
 $(document).ready(function() {
     pictionary();
 });
+
+
+
+
+
+
+
+
+
+
+
+
