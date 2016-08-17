@@ -20,7 +20,8 @@ var pictionary = function() {
         
         // finally this fills the path in to create a solid black circle
         context.fill();
-         
+        
+        // EMITTER that lets server know 'draw' has occured and sends position  
         socket.emit('draw', position);       
     };
 
@@ -61,10 +62,6 @@ var pictionary = function() {
         if(drawing){
             draw(position);            
         }
-
-        
-        // EMITTER that lets server know 'draw' has occured and sends position
-
   
     });
     
@@ -72,6 +69,38 @@ var pictionary = function() {
     socket.on('draw', function(position){
        draw(position);
     });
+    
+    
+    
+    //////////////////
+    
+    
+    var guessBox;
+    var guessDiv = $('.guess').clone();
+    
+    var onKeyDown = function(event) {
+        if (event.keyCode != 13) { // Enter
+            return;
+        }
+        var guess = guessBox.val()
+        socket.emit('guess', guessBox.val());
+        
+        guessBox.val('');
+    };
+
+    guessBox = $('#guess input');
+    guessBox.on('keydown', onKeyDown);
+    
+    
+    var guessDiv = '<div class="guess"><span class="guess_text"> {{guess}}</span></div>'  
+
+    var guessTemplate = Handlebars.compile(guessDiv)
+    
+    
+    socket.on('guess', function(value){
+        var userguess = guessTemplate({guess : value});
+        $('.guessboard').append(userguess)
+    })
     
 };
 

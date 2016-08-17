@@ -8,6 +8,7 @@ body {
     font-size: 1.5em;
 }
 
+
 h1 {
     background-color: #9ABBFF;
     margin:  0 0 20px 0;
@@ -20,10 +21,23 @@ h1 {
     padding: 10px;
 }
 
+.drawboard {
+    border: 1px red solid;
+}
+
 canvas {
-    width: 800px;
-    height: 600px;
+    width: 500px;
+    height: 400px;
     border: 1px #C7CACD solid;
     display: block;
     margin: 0 auto;
+}
+
+.guessboard {
+    border: 1px blue solid;
+    text-align: center;
+}
+
+.guess_text {
+    color: blue;
 }

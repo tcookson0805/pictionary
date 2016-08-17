@@ -4,7 +4,7 @@ var socket_io = require('socket.io')
 
 var app = express();
 app.use(express.static('public'));
-
+app.use('/css', express.static(__dirname + '/node_modules/materialize-css/dist/'))
 var server = http.Server(app);
 var io = socket_io(server);
 
@@ -16,6 +16,10 @@ io.on('connection', function(socket){
     // turns around and broadcasts back to script.js
     socket.broadcast.emit('draw', position);
   });
+  
+  socket.on('guess', function(value){
+    io.emit('guess', value);
+  })
 
 });
 
