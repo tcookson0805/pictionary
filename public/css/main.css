@@ -8,6 +8,14 @@ body {
     font-size: 1.5em;
 }
 
+.game {
+    display: none;
+}
+
+.signIn {
+/*    display: none;
+*/}
+
 
 h1 {
     background-color: #9ABBFF;
@@ -22,22 +30,40 @@ h1 {
 }
 
 .drawboard {
-    border: 1px red solid;
-}
+/*    border: 1px red solid;
+*/}
 
 canvas {
-    width: 500px;
-    height: 400px;
+    width: 700px;
+    height: 500px;
     border: 1px #C7CACD solid;
     display: block;
     margin: 0 auto;
 }
 
-.guessboard {
-    border: 1px blue solid;
+.alreadyTaken {
+    color: red;
+    font-style: italic;
+    font-size: 0.75em;
     text-align: center;
+    display: none;
+}
+
+.guessboard {
+/*    border: 1px blue solid;
+*/    text-align: center;
 }
 
 .guess_text {
     color: blue;
+}
+
+.user_info {
+    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
+    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
+    box-shadow:         1px 1px 1px 2px #C7CACD;
+}
+
+#guess {
+    padding: 1em;
 }
