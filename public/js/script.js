@@ -4,7 +4,12 @@ var socket = io();
 // function where all the magic happens
 var pictionary = function() {
     var canvas, context;
+    var drawer = false;
     var drawing = false;
+    var userScore = 0;
+    var userName;
+
+    
     
     var draw = function(position) {    
         // this tells the context you are about to start drawing a new object
@@ -16,7 +21,6 @@ var pictionary = function() {
         // finally this fills the path in to create a solid black circle
         context.fill();
         // EMITTER that lets server know 'draw' has occured and sends position  
-
         socket.emit('draw', position);       
     };
 
@@ -31,18 +35,21 @@ var pictionary = function() {
     // canvas[0].height = canvas[0].offsetHeight;
     
    $('body').on('mousedown', canvas, function(){
-        drawing = true;
+        if(drawer.username === userName){
+            drawing = true;   
+        }
    });
    
    $('body').on('mouseup', canvas, function(){
-        drawing = false;
+        if(drawer.userName === userName){
+            drawing = false;            
+        }
    });
    
     //  adding mousemove listener to the canvas
     $('body').on('mousemove', canvas, function(event) {
 
-        if(drawing){
-            
+        if(drawing){          
             // first find the offset of the canvas on the page
             var offset = canvas.offset();
             // then subtract this from the event pageX and pageY attributes
@@ -50,15 +57,13 @@ var pictionary = function() {
                 //  page so by subtracting the offset we obtain the position of the mouse relative
                 //  to the top-left of the canvas
             var position = {x: event.pageX - offset.left,
-                            y: event.pageY - offset.top};
-            
+                            y: event.pageY - offset.top};         
             draw(position);            
         }
     });
     
     // hears the 'draw' from the server
     socket.on('draw', function(position){
-
        draw(position);
     });
 
@@ -71,23 +76,23 @@ var pictionary = function() {
         if (event.keyCode != 13) { // Enter
             return;
         }
-        var guess = guessBox.val()
-        socket.emit('guess', guessBox.val());
+        console.log('yo')
+        var guess = {userName: userName, guess: guessBox.val()}
+        
+        socket.emit('guess', guess);
         
         guessBox.val('');
     };
 
-    guessBox = $('#guess input');
+    guessBox = $('#guessTemplate input');
     guessBox.on('keydown', onKeyDown);
     
-    var guessDiv = '<div class="guess"><span class="guess_text"> {{guess}}</span></div>'  
-
-    var guessTemplate = Handlebars.compile(guessDiv)
     
-    socket.on('guess', function(value){
-        var userguess = guessTemplate({guess : value});
-        $('.guessboard').append(userguess)
-    });
+    // socket.on('guess', function(value){
+    //     var userguess = guessTemplate({guess : value});
+        
+    //     $('.guesses').append(userguess)
+    // });
   
     
     // defer.promise(closeSignin);
@@ -99,11 +104,14 @@ var pictionary = function() {
         socket.emit('screenName', val);
     });
     
-    socket.on('screenName', function(val){
+    socket.on('screenName', function(userObj){
 
-        if(val === 'already exists'){
+        if(userObj === 'already exists'){
+            
             $('.alreadyTaken').show();
+        
         }else{
+        
             $('.signIn').hide();
             $('.game').show();
             
@@ -117,11 +125,77 @@ var pictionary = function() {
                 // this makes what is drawn to the context object display w/ correct resolutions
             canvas[0].width = canvas[0].offsetWidth;
             canvas[0].height = canvas[0].offsetHeight;
+            
+            if(!userName){
+                userName = userObj.userName
+                $('.user_info_name').html(userName);
+                $('.userScore').html(userScore);                
+            }
+            
         }
     });
+
+
+    socket.on('drawer', function(obj){
+        drawer = obj;
+        if(userName === obj.userName){
+            $('#guessTemplate').hide();
+            $('#clueTemplate').show();
+        }else {
+            $('#guessTemplate').show();
+        }
+        
+    });
     
+    socket.on('clue', function(clue){
+        console.log('hey')
+        $('.clue').html(clue);
+    });
+
+
+
+    socket.on('incorrect', function(obj){
+        var guessDiv = '<div class="guess"><span class="guess_text">' + '{{userName}} : ' + '{{guess}}</span></div>' 
+        var guessTemplate = Handlebars.compile(guessDiv);
+        $('.guess_board').append(guessTemplate({userName: obj.userName, guess: obj.guess}))
+    });
     
-      
+    socket.on('correct', function(obj){
+       
+       $('.winner').show();
+       $('.winner_user').html(obj.userName);
+       $('.winner_answer').html(obj.guess);
+       
+       console.log('asdfasd');
+       
+       if(obj.userName === userName){
+            socket.emit('updateScore', obj.userName);
+       }
+       
+    });
+    
+    socket.on('updateUsers', function(obj){
+        
+        $('.users').children().remove();
+            
+        var rank = []
+        
+        for(var key in obj){
+            rank.push(obj[key]);
+        }
+        
+        rank.sort(function(a, b){
+            return parseFloat(b.wins) - parseFloat(a.wins);
+        });
+        
+        for(var i = 0; i < rank.length; i++){
+            if(rank[i].userName === userName){
+                $('.userScore').html(rank[i].wins);
+            }
+            $('.users').append('<div>' + rank[i].userName + ' : ' + rank[i].wins + ' wins' + '</div>');
+        }
+           
+    });  
 };
 
 

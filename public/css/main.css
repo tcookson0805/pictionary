@@ -2,43 +2,56 @@
     box-sizing: border-box;
 }
 
-body {
-    color: #1E2835;
-    background-color: #F8F8F8;
-    font-size: 1.5em;
+html {
+    height: 100%;
 }
 
-.game {
-    display: none;
+body {
+    background-image: url('../img/canvas-texture-paper.jpg');
+    color: #1E2835;
+    font-size: 1.5em;
+    height: 100%;
+}
+
+#main {
+    height: 100%;
+}
+
+.headline {
+    margin: 0.5em;
+    text-align: center;   
+}
+
+.logo {
+    height: 5em;
+    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
+    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
+    box-shadow:         1px 1px 1px 2px #C7CACD;
+}
+
+.hero {
+    
 }
 
 .signIn {
-/*    display: none;
-*/}
-
-
-h1 {
-    background-color: #9ABBFF;
-    margin:  0 0 20px 0;
-    padding: 20px;
-    text-align: center;
+    margin: 2em;
 }
 
-#top-message {
-    text-align: center;
-    padding: 10px;
+
+.signIn_main {
+    
 }
 
-.drawboard {
-/*    border: 1px red solid;
-*/}
+.signIn_row {
+    
+}
 
-canvas {
-    width: 700px;
-    height: 500px;
-    border: 1px #C7CACD solid;
-    display: block;
-    margin: 0 auto;
+.signIn_col {
+    
+}
+
+#screen_name {
+    
 }
 
 .alreadyTaken {
@@ -46,24 +59,124 @@ canvas {
     font-style: italic;
     font-size: 0.75em;
     text-align: center;
+    display: none;   
+}
+
+.game {
     display: none;
 }
+
+.userboard {
+    overflow-y: scroll;
+    height: 600px;
+}
+
+.userboard_headline {
+    font-weight: bold;
+    font-size: 1.0em;
+    margin: 0 0.5em;
+    text-align: center;
+}
+
+.users {
+    margin: 1em;
+    font-size: 0.75em;
+    text-align: center;
+}
+
+.drawboard {
+    text-align: center;
+/*    border: 1px red solid;
+*/}
+
+
+canvas {
+    width: 500px;
+    height: 500px;
+    border: 1px #C7CACD solid;
+    display: block;
+    margin: 0 auto 1em auto;
+    background-color: white;
+    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
+    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
+    box-shadow:         1px 1px 1px 2px #C7CACD;
+}
+
+.winner {
+    display: none;
+}
+
+.winner_user {
+    
+}
+
+.winner_answer {
+    
+}
+
+.next_game {
+    margin: 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
 
 .guessboard {
 /*    border: 1px blue solid;
 */    text-align: center;
+    
+}
+
+.user_info {
+/*    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
+    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
+    box-shadow:         1px 1px 1px 2px #C7CACD;*/
+}
+
+.user_info_name {
+    font-weight: bold;
+}
+
+.user_info_score {
+   margin: 1em; 
+}
+
+.userScore {
+    
+}
+
+.user_action {
+    margin: 1em 0;
+    padding: 1em;
+    text-align: center;
+/*    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
+    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
+    box-shadow:         1px 1px 1px 2px #C7CACD;*/
+}
+
+#guessTemplate {
+
 }
 
 .guess_text {
     color: blue;
 }
 
-.user_info {
-    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
-    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
-    box-shadow:         1px 1px 1px 2px #C7CACD;
+#clueTemplate {
+    display: none;
 }
 
-#guess {
-    padding: 1em;
+.guess_board {
+    overflow-y: scroll;
+    height: 300px;  
 }
+
+#top-message {
+    text-align: center;
+    padding: 10px;
+}
+
+
+
+
+

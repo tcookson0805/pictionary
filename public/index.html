@@ -15,14 +15,14 @@
 
   <div id="main" class='container'>
     
-    <div class='hero'>
-      
-      <div class='row'>
-        <div class='col s12'>
-          <h1>Pictionary</h1>
-        </div>
+    <div class='row'>
+      <div class='col s12 headline'>
+        <img class='logo' src='img/pictionary-logo.png'>
       </div>
-      
+    </div>
+    
+    <div class='hero'>
+    
       <div class='row signIn'>
         <div class='col s12 signIn_main'>
           <div class="row signIn_row">
@@ -47,26 +47,52 @@
       
       <div class='game'>
         
+        
         <div class='row'>
-          <div class='col s9 drawboard'>
-            <canvas id="canvas"></canvas> 
+        
+          <div class='col s3 userboard'>
+            <div class='userboard_headline'>users online</div>
+            <div class='users'>
+              
+            </div>
           </div>
+        
+          <div class='col s6 drawboard'>
+            <canvas id="canvas"></canvas>
+            <div class='winner'>
+              <div><span class='winner_user'>Joe</span> Wins!!!</div>
+              <div>The correct answer was <span class='winner_answer'>Goat</span></div>
+              <div class='next_game'>Click Here to Play Again</div>
+            </div> 
+          </div>
+          
           <div class='col s3 guessboard'>
+            
             <div class='user_info'>
-              <div class='user_info_name'>Tyler</div>
-              <div class='user_info_score'>Score: 5</div>
+              <div class='user_info_name'></div>
+              <div class='user_info_score'>Score: <span class='userScore'></span></div>
             </div>
-            <div id="guess" >
-              Make a guess: <input type="text" />
+            
+            <div class='user_action'>
+              <div id="guessTemplate" >
+                Make a guess: <input type="text" />
+              </div> 
+              
+              <div id='clueTemplate'>
+                Draw this: <br> <span class='clue'></span>
+              </div>             
+              
             </div>
-            <div class='guesses'>
-              <div class='user_guess'>
-                
-              </div>
+
+            <div class='guess_board'>
+              <div>Incorrect Guesses</div>
             </div>
           </div>
         </div>
         
+        <div class='row'>
+          
+        </div>        
       </div>
       
     </div>
