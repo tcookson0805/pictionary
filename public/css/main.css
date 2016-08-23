@@ -67,18 +67,20 @@ body {
 }
 
 .userboard {
-    overflow-y: scroll;
-    height: 600px;
+    height: 21em;
+    border: 0.1em black dotted;
 }
 
 .userboard_headline {
     font-weight: bold;
     font-size: 1.0em;
-    margin: 0 0.5em;
     text-align: center;
+    padding-top: 1em;
 }
 
 .users {
+    height: 21em;
+    overflow-y: scroll;
     margin: 1em;
     font-size: 0.75em;
     text-align: center;
@@ -86,16 +88,16 @@ body {
 
 .drawboard {
     text-align: center;
-/*    border: 1px red solid;
-*/}
+
+}
 
 
 canvas {
-    width: 500px;
-    height: 500px;
+    width: 21em;
+    height: 21em;
     border: 1px #C7CACD solid;
     display: block;
-    margin: 0 auto 1em auto;
+    margin: 0 auto;
     background-color: white;
     -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
     -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
@@ -122,15 +124,17 @@ canvas {
 
 
 .guessboard {
-/*    border: 1px blue solid;
-*/    text-align: center;
-    
+    height: 21em;
+    border: 0.1em black dotted;
+    text-align: center;
 }
 
 .user_info {
 /*    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
     -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
     box-shadow:         1px 1px 1px 2px #C7CACD;*/
+    padding-top: 1em;
+    border-bottom: 0.1em black dotted;
 }
 
 .user_info_name {
@@ -146,9 +150,10 @@ canvas {
 }
 
 .user_action {
-    margin: 1em 0;
     padding: 1em;
     text-align: center;
+    border-bottom: 0.1em black dotted;
+
 /*    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
     -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
     box-shadow:         1px 1px 1px 2px #C7CACD;*/
@@ -159,7 +164,8 @@ canvas {
 }
 
 .guess_text {
-    color: blue;
+    color: red;
+    font-size: 0.75em;
 }
 
 #clueTemplate {
@@ -167,8 +173,13 @@ canvas {
 }
 
 .guess_board {
+    padding-top: 1em; 
+}
+
+.guesses {
     overflow-y: scroll;
-    height: 300px;  
+    height: 5.5em;
+    margin-top: 0.5em; 
 }
 
 #top-message {

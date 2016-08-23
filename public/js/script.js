@@ -157,7 +157,8 @@ var pictionary = function() {
     socket.on('incorrect', function(obj){
         var guessDiv = '<div class="guess"><span class="guess_text">' + '{{userName}} : ' + '{{guess}}</span></div>' 
         var guessTemplate = Handlebars.compile(guessDiv);
-        $('.guess_board').append(guessTemplate({userName: obj.userName, guess: obj.guess}))
+        $('.guesses').append(guessTemplate({userName: obj.userName, guess: obj.guess}))
+        $('.guesses')[0].scrollTop = $('.guesses')[0].scrollHeight;
     });
     
     socket.on('correct', function(obj){
@@ -192,9 +193,11 @@ var pictionary = function() {
             if(rank[i].userName === userName){
                 $('.userScore').html(rank[i].wins);
             }
-            $('.users').append('<div>' + rank[i].userName + ' : ' + rank[i].wins + ' wins' + '</div>');
+            $('.users').append('<div>' + rank[i].userName + ' - ' + rank[i].wins + ' points' + '</div>');
         }
-           
+        
+        $('.userboard_number').html(rank.length);
+        $('.users')[0].scrollTop = $('.users')[0].scrollHeight;   
     });  
 };
 
