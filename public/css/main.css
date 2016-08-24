@@ -29,29 +29,23 @@ body {
     box-shadow:         1px 1px 1px 2px #C7CACD;
 }
 
-.hero {
-    
+.hero { 
 }
 
 .signIn {
     margin: 2em;
 }
 
-
 .signIn_main {
-    
 }
 
 .signIn_row {
-    
 }
 
 .signIn_col {
-    
 }
 
 #screen_name {
-    
 }
 
 .alreadyTaken {
@@ -89,7 +83,6 @@ body {
 
 .drawboard {
     text-align: center;
-
 }
 
 
@@ -109,12 +102,10 @@ canvas {
    text-align: center; 
 }
 
-.drawing {
-    
+.drawing {  
 }
 
 .drawer {
-    
 }
 
 .winner {
@@ -122,11 +113,9 @@ canvas {
 }
 
 .winner_user {
-    
 }
 
 .winner_answer {
-    
 }
 
 .next_game {
@@ -143,9 +132,6 @@ canvas {
 }
 
 .user_info {
-/*    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
-    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
-    box-shadow:         1px 1px 1px 2px #C7CACD;*/
     padding-top: 1em;
     border-bottom: 0.1em black dotted;
 }
@@ -158,22 +144,16 @@ canvas {
    margin: 1em; 
 }
 
-.userScore {
-    
+.userScore {  
 }
 
 .user_action {
     padding: 1em;
     text-align: center;
     border-bottom: 0.1em black dotted;
-
-/*    -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
-    -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
-    box-shadow:         1px 1px 1px 2px #C7CACD;*/
 }
 
 #guessTemplate {
-
 }
 
 .guess_text {
@@ -195,10 +175,6 @@ canvas {
     margin-top: 0.5em; 
 }
 
-#top-message {
-    text-align: center;
-    padding: 10px;
-}
 
 
 

@@ -13,7 +13,6 @@ var pictionary = function() {
 
     var initiateCountDown = function(obj){
        countdown = setInterval(function(){
-
          if(count > 0){
             count--;
             // socket.emit('countDown', count);
@@ -23,9 +22,7 @@ var pictionary = function() {
             count = 5;
             $('.countdown').html(count);
             socket.emit('updateDrawer', obj);
-            
          }
-         console.log()
       },1000);
     }
     
@@ -34,7 +31,7 @@ var pictionary = function() {
     }
     
     
-    var draw = function(position) {    
+    var draw = function(position){    
         // this tells the context you are about to start drawing a new object
         context.beginPath();
         // this is used to draw arcs, in this case we tell it to draw an entire circle
@@ -61,9 +58,6 @@ var pictionary = function() {
         if(drawer.userName === userName){
             drawing = true;   
         }
-        console.log(drawer);
-        console.log(userName);
-        console.log(drawing);
    });
    
    $('body').on('mouseup', canvas, function(){
@@ -73,9 +67,8 @@ var pictionary = function() {
    });
    
     //  adding mousemove listener to the canvas
-    $('body').on('mousemove', canvas, function(event) {
-
-        if(drawing){          
+    $('body').on('mousemove', canvas, function(event){
+        if(drawing) {          
             // first find the offset of the canvas on the page
             var offset = canvas.offset();
             // then subtract this from the event pageX and pageY attributes
@@ -102,11 +95,8 @@ var pictionary = function() {
         if (event.keyCode != 13) { // Enter
             return;
         }
-        console.log('yo')
-        var guess = {userName: userName, guess: guessBox.val()}
-        
+        var guess = {userName: userName, guess: guessBox.val()}   
         socket.emit('guess', guess);
-        
         guessBox.val('');
     };
 
@@ -124,22 +114,20 @@ var pictionary = function() {
     });
     
     socket.on('screenName', function(userObj){
-
         if(userObj === 'already exists'){
-            
             $('.alreadyTaken').show();
-        
         }else{
-        
             $('.signIn').hide();
             $('.game').show();
             
             // $('.user_info_name').html
             // using jQuery to select the <canvas> element
             canvas = $('#canvas');
+            
             // using the .getContext('2d') function to create a drawing context for the canvas
                 // this context object allows you to draw simple graphis to the canvas
             context = canvas[0].getContext('2d');
+            
             // setting width and height of canvas object equal to its offsetWidth and offsetHeight
                 // this makes what is drawn to the context object display w/ correct resolutions
             canvas[0].width = canvas[0].offsetWidth;
@@ -150,7 +138,6 @@ var pictionary = function() {
                 $('.user_info_name').html(userName);
                 $('.userScore').html(userScore);                
             }
-            
         }
     });
 
@@ -168,16 +155,29 @@ var pictionary = function() {
         $('.drawing').show();
         $('.winner').hide();
         $('.drawer').html(obj.userName);
-        $('.guesses').children().remove();
         
     });
     
+    socket.on('updateDrawer', function(obj){
+        drawer = obj;
+        if(userName === obj.userName){
+            $('#guessTemplate').hide();
+            $('#clueTemplate').show();
+        }else {
+            $('#guessTemplate').show();
+            $('#clueTemplate').hide();
+        }
+                
+        $('.drawing').show();
+        $('.winner').hide();
+        $('.drawer').html(obj.userName);
+        $('.guesses').children().remove();
+    })
+    
+    
     socket.on('clue', function(clue){
-        console.log('hey')
         $('.clue').html(clue);
     });
-
-
 
     socket.on('incorrect', function(obj){
         var guessDiv = '<div class="guess"><span class="guess_text">' + '{{userName}} : ' + '{{guess}}</span></div>' 
@@ -187,7 +187,6 @@ var pictionary = function() {
     });
     
     socket.on('correct', function(obj){
-       
        $('.drawing').hide();
        $('.winner').show();
        $('.winner_user').html(obj.userName);
@@ -198,7 +197,6 @@ var pictionary = function() {
        }
        
        initiateCountDown(obj);
-       
     });
        
 
@@ -208,7 +206,7 @@ var pictionary = function() {
         
         $('.users').children().remove();
             
-        var rank = []
+        var rank = []  
         
         for(var key in obj){
             rank.push(obj[key]);
@@ -228,7 +226,6 @@ var pictionary = function() {
         $('.userboard_number').html(rank.length);
         $('.users')[0].scrollTop = $('.users')[0].scrollHeight;   
     });
-    
     
     
     socket.on('countDown', function(num){
