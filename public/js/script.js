@@ -8,7 +8,30 @@ var pictionary = function() {
     var drawing = false;
     var userScore = 0;
     var userName;
+    var count = 5;
+    var countdown;
 
+    var initiateCountDown = function(obj){
+       countdown = setInterval(function(){
+
+         if(count > 0){
+            count--;
+            // socket.emit('countDown', count);
+            $('.countdown').html(count);
+         }else{
+            stopCountDown();
+            count = 5;
+            $('.countdown').html(count);
+            socket.emit('updateDrawer', obj);
+            
+         }
+         console.log()
+      },1000);
+    }
+    
+    var stopCountDown = function(){
+        clearInterval(countdown);
+    }
     
     
     var draw = function(position) {    
@@ -35,9 +58,12 @@ var pictionary = function() {
     // canvas[0].height = canvas[0].offsetHeight;
     
    $('body').on('mousedown', canvas, function(){
-        if(drawer.username === userName){
+        if(drawer.userName === userName){
             drawing = true;   
         }
+        console.log(drawer);
+        console.log(userName);
+        console.log(drawing);
    });
    
    $('body').on('mouseup', canvas, function(){
@@ -88,13 +114,6 @@ var pictionary = function() {
     guessBox.on('keydown', onKeyDown);
     
     
-    // socket.on('guess', function(value){
-    //     var userguess = guessTemplate({guess : value});
-        
-    //     $('.guesses').append(userguess)
-    // });
-  
-    
     // defer.promise(closeSignin);
     $('body').on('keydown', '.hero', function(event){
         if(event.keyCode != 13){
@@ -117,7 +136,7 @@ var pictionary = function() {
             
             // $('.user_info_name').html
             // using jQuery to select the <canvas> element
-            canvas = $('canvas');
+            canvas = $('#canvas');
             // using the .getContext('2d') function to create a drawing context for the canvas
                 // this context object allows you to draw simple graphis to the canvas
             context = canvas[0].getContext('2d');
@@ -143,7 +162,13 @@ var pictionary = function() {
             $('#clueTemplate').show();
         }else {
             $('#guessTemplate').show();
+            $('#clueTemplate').hide();
         }
+                
+        $('.drawing').show();
+        $('.winner').hide();
+        $('.drawer').html(obj.userName);
+        $('.guesses').children().remove();
         
     });
     
@@ -163,17 +188,21 @@ var pictionary = function() {
     
     socket.on('correct', function(obj){
        
+       $('.drawing').hide();
        $('.winner').show();
        $('.winner_user').html(obj.userName);
        $('.winner_answer').html(obj.guess);
-       
-       console.log('asdfasd');
-       
+    
        if(obj.userName === userName){
             socket.emit('updateScore', obj.userName);
        }
        
+       initiateCountDown(obj);
+       
     });
+       
+
+       
     
     socket.on('updateUsers', function(obj){
         
@@ -198,7 +227,15 @@ var pictionary = function() {
         
         $('.userboard_number').html(rank.length);
         $('.users')[0].scrollTop = $('.users')[0].scrollHeight;   
-    });  
+    });
+    
+    
+    
+    socket.on('countDown', function(num){
+        $('.countdown').html(num);
+    });
+    
+      
 };
 
 

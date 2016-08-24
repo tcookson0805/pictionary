@@ -51,30 +51,32 @@ io.on('connection', function(socket){
       
     }else{
       
+      socket.userName = val;
+      
       if(!Object.keys(usersOnline).length){
         
         usersOnline[val] = new User(val);
         usersOnline[val].id = socket.id;
         usersOnline[val].drawer = true;
         drawer = usersOnline[val];
-        
-        io.emit('screenName', usersOnline[val]);
-        io.emit('drawer', drawer)
-        
+                
         var randomNumber = Math.floor(Math.random() * WORDS.length)
-        
         answer = WORDS[randomNumber]
-        
         io.emit('clue', answer);
+        
       }else{
       
         usersOnline[val] = new User(val);
         usersOnline[val].id = socket.id;
-        io.emit('screenName', usersOnline[val]);
       
       }
+      
+      io.emit('screenName', usersOnline[val]);
+      io.emit('drawer', drawer);
       io.emit('updateUsers', usersOnline);
     }
+    
+    console.log('connection', usersOnline)
   });
   
   // socket listens for 'draw' event to occur
@@ -85,8 +87,6 @@ io.on('connection', function(socket){
   
   socket.on('guess', function(guessObj){
 
-    console.log(guessObj);
-    console.log('answer', answer)
     
     if(guessObj.guess === answer){
       
@@ -101,7 +101,6 @@ io.on('connection', function(socket){
       io.emit('incorrect', guessObj)
     }
     
-    // io.emit('guess', value);
   });
   
   
@@ -111,13 +110,64 @@ io.on('connection', function(socket){
     io.emit('updateUsers', usersOnline);
   });
   
+  socket.on('updateDrawer', function(userObj){
+    
+    io.emit('drawer', userObj);
+
+    drawer = usersOnline[userObj.userName];
+
+    var randomNumber = Math.floor(Math.random() * WORDS.length)
+    answer = WORDS[randomNumber]
+    io.emit('clue', answer);
+  });
+  
+  socket.on('countDown', function(num){
+    
+    io.emit('countDown', num);
+    
+  });
   
   
   
   socket.on('disconnect', function(){
     // check to see if disconnecting user is the drawer
     
-    console.log(usersOnline);
+    
+
+    delete usersOnline[socket.userName]
+    
+    console.log('139', drawer);
+    
+    if(Object.keys(usersOnline).length && drawer.userName === socket.userName){
+      
+      console.log('insiiiidddee')
+      
+      var randomNum = Math.floor(Math.random() * Object.keys(usersOnline).length);
+      console.log('randomNum', randomNum);
+      var count = 0;
+      console.log('count', count)
+      
+      for(var key in usersOnline){
+        if(count === randomNum){
+          drawer = usersOnline[key]
+          
+          console.log('drawer', drawer)
+          io.emit('drawer', usersOnline[key]);
+          
+          var randomNumber = Math.floor(Math.random() * WORDS.length)
+          answer = WORDS[randomNumber]
+          io.emit('clue', answer);
+          
+        }else{
+          count++
+        }
+      }
+    }
+    
+    io.emit('updateUsers', usersOnline);
+    
+    console.log('disconnect', usersOnline);
+    
     
     // if(Object.keys(usersOnline).length){
     //   if(socket.user.drawer && Object.keys(usersOnline).length > 1){

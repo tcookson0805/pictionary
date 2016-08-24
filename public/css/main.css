@@ -79,11 +79,12 @@ body {
 }
 
 .users {
-    height: 21em;
+    height: 10em;
     overflow-y: scroll;
     margin: 1em;
     font-size: 0.75em;
     text-align: center;
+    border-bottom: 1px solid blue;
 }
 
 .drawboard {
@@ -102,6 +103,18 @@ canvas {
     -moz-box-shadow:    1px 1px 1px 2px #C7CACD;
     -webkit-box-shadow: 1px 1px 1px 2px #C7CACD;
     box-shadow:         1px 1px 1px 2px #C7CACD;
+}
+
+.info {
+   text-align: center; 
+}
+
+.drawing {
+    
+}
+
+.drawer {
+    
 }
 
 .winner {
